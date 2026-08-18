@@ -1,0 +1,1026 @@
+/* ===========================================================
+   NOTAS MUSICAIS — design system premium
+   2 temas via atributo no <html> (mesmo mecanismo antigo):
+     data-tema="escuro"  →  AURORA VIOLETA (padrão)
+     data-tema="claro"   →  CAFÉ ÂMBAR
+   Nenhuma cor literal fora dos blocos de tokens.
+   Fonte: Outfit (Google Fonts, carregada no <head>).
+   =========================================================== */
+
+:root{
+  /* ---- fundações ---- */
+  --font-ui:'Outfit',-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  --font-disp:'Outfit',sans-serif;
+  --font-mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,"Roboto Mono",monospace;
+  --fs-0:10px; --fs-1:11.5px; --fs-2:13px; --fs-3:15px; --fs-4:18px; --fs-5:27px;
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
+  --t-1:120ms; --t-2:200ms; --t-3:320ms;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --ease-pop:cubic-bezier(.34,1.56,.64,1);
+  --r:16px; --r-l:26px; --r-s:10px; --r-pill:999px;
+  --nav-h:78px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --largura:430px;
+  --blur:blur(22px) saturate(150%);
+  --blur-s:blur(14px);
+
+  /* ---- TEMA AURORA VIOLETA (padrão / "escuro") ---- */
+  --bg:#0E0B1A;
+  --bg2:#171130;
+  --aura:radial-gradient(1100px 700px at 15% -10%,rgba(124,58,237,.16),transparent 60%),
+         radial-gradient(900px 650px at 110% 110%,rgba(219,39,119,.12),transparent 60%);
+  --blob-1:rgba(124,58,237,.32);
+  --blob-2:rgba(219,39,119,.22);
+  --glass:rgba(31,25,51,.55);
+  --glass-2:rgba(255,255,255,.07);
+  --stroke:rgba(255,255,255,.10);
+  --stroke-2:rgba(255,255,255,.20);
+  --ink:#F4F1FB;
+  --mut:#BFB7D8;
+  --dim:#8F86AD;
+  --acento:#8B5CF6;
+  --acento-hi:#A78BFA;
+  --acento-2:#F472B6;
+  --grad:linear-gradient(135deg,#7C3AED,#DB2777);
+  --halo:rgba(124,58,237,.45);
+  --gold:#FFD54F;
+  --ok:#2FE39C; --warn:#FFAF3D; --bad:#FF6B61;
+  --acento-ink:#ffffff; --acento-2-ink:#2A0A1D;
+  --ok-ink:#001A10; --warn-ink:#241300; --bad-ink:#2A0505;
+  --shadow-1:0 8px 24px -12px rgba(0,0,0,.45);
+  --shadow-2:0 24px 60px -20px rgba(0,0,0,.55);
+  --scrim:rgba(8,6,15,.7);
+  --topA:rgba(14,11,26,.9); --topB:rgba(14,11,26,0);
+  --navbg:rgba(23,18,40,.72);
+  --nav-on:linear-gradient(135deg,rgba(124,58,237,.30),rgba(219,39,119,.24));
+  --nav-on-ink:#E9E4FA;
+  --nav-on-line:rgba(167,139,250,.35);
+  --sheetbg:rgba(24,19,42,.92);
+  --barbg:rgba(24,19,42,.94);
+  --fio:rgba(255,255,255,.09);
+  --ph:#221B3E;
+
+  /* teclado */
+  --tecla-b:linear-gradient(180deg,#F7F4FF,#E6E0F5);
+  --tecla-ink:#9A92B8;
+  --tecla-line:#151024;
+  --tecla-sombra:rgba(23,21,38,.12);
+  --tecla-p:linear-gradient(180deg,#241C3D,#120E20);
+  --tecla-p-ink:#6A5F94;
+  --tecla-ativa:linear-gradient(180deg,#A78BFA,#7C3AED);
+  --tecla-p-ativa:linear-gradient(180deg,#8B5CF6,#6D28D9);
+  --tecla-ativa-ink:#ffffff;
+
+  /* aliases legados (usados em estilos inline / JS antigo) */
+  --border:var(--stroke);
+  --bg-card:var(--glass);
+  --fg:var(--ink);
+  --text:var(--ink);
+}
+
+/* ---- TEMA CAFÉ ÂMBAR (segundo tema / "claro") ---- */
+html[data-tema="claro"]{
+  --bg:#1A100C;
+  --bg2:#2A1A12;
+  --aura:radial-gradient(1000px 700px at 110% -10%,rgba(255,213,79,.08),transparent 55%),
+         linear-gradient(135deg,#1A100C 0%,#2E1C15 100%);
+  --blob-1:rgba(255,213,79,.13);
+  --blob-2:rgba(255,111,0,.11);
+  --glass:rgba(62,39,35,.7);
+  --glass-2:rgba(255,255,255,.08);
+  --stroke:rgba(255,213,79,.2);
+  --stroke-2:rgba(255,213,79,.38);
+  --ink:#FDF5E6;
+  --mut:#D7CCC8;
+  --dim:#A1887F;
+  --acento:#FFD54F;
+  --acento-hi:#FFE082;
+  --acento-2:#FFC107;
+  --grad:linear-gradient(135deg,#FFD54F,#FFB300);
+  --halo:rgba(255,213,79,.35);
+  --gold:#FFD54F;
+  --ok:#81C784; --warn:#FFB74D; --bad:#EF5350;
+  --acento-ink:#3E2723; --acento-2-ink:#2A1A12;
+  --ok-ink:#0D2412; --warn-ink:#241300; --bad-ink:#2A0505;
+  --shadow-1:0 8px 24px -12px rgba(0,0,0,.5);
+  --shadow-2:0 20px 40px rgba(0,0,0,.5);
+  --scrim:rgba(0,0,0,.78);
+  --topA:rgba(26,16,12,.9); --topB:rgba(26,16,12,0);
+  --navbg:rgba(38,23,18,.78);
+  --nav-on:linear-gradient(135deg,rgba(255,213,79,.16),rgba(255,179,0,.12));
+  --nav-on-ink:#FFD54F;
+  --nav-on-line:rgba(255,213,79,.35);
+  --sheetbg:rgba(43,27,20,.94);
+  --barbg:rgba(43,27,20,.96);
+  --fio:rgba(255,213,79,.12);
+  --ph:#3A241C;
+
+  --tecla-b:linear-gradient(180deg,#FDF5E6,#E8DCC8);
+  --tecla-ink:#A1887F;
+  --tecla-line:#1C110D;
+  --tecla-sombra:rgba(62,39,35,.18);
+  --tecla-p:linear-gradient(180deg,#3A2620,#1C110D);
+  --tecla-p-ink:#8A6E5C;
+  --tecla-ativa:linear-gradient(180deg,#FFE082,#FFC107);
+  --tecla-p-ativa:linear-gradient(180deg,#FFD54F,#E6A700);
+  --tecla-ativa-ink:#3E2723;
+}
+
+/* =========================== base =========================== */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:hidden}
+body{
+  background:var(--aura),var(--bg);
+  background-attachment:fixed;
+  color:var(--ink);
+  font-family:var(--font-ui);font-size:var(--fs-3);line-height:1.45;
+  -webkit-font-smoothing:antialiased;min-height:100dvh;
+}
+/* aura dinâmica: duas esferas borradas fixas atrás de tudo */
+body::before,body::after{
+  content:"";position:fixed;z-index:-1;pointer-events:none;
+  width:340px;height:340px;border-radius:50%;filter:blur(90px);
+}
+body::before{background:var(--blob-1);top:-90px;left:-100px;animation:blobA 17s ease-in-out infinite}
+body::after{background:var(--blob-2);bottom:-70px;right:-90px;animation:blobB 21s ease-in-out infinite}
+@keyframes blobA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(46px,-36px) scale(1.07)}}
+@keyframes blobB{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-52px,44px) scale(1.1)}}
+
+a{color:var(--acento-hi);text-decoration:none;transition:color var(--t-2) var(--ease)}
+a:hover{color:var(--acento-2)}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+input,textarea{font:inherit}
+.app{max-width:var(--largura);margin:0 auto;min-height:100dvh;position:relative}
+
+/* =========================== topo =========================== */
+.top{
+  position:sticky;top:0;z-index:40;
+  padding:calc(env(safe-area-inset-top,0px) + 14px) var(--sp-4) 10px;
+  background:linear-gradient(180deg,var(--topA) 62%,var(--topB));
+}
+.top-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{font-family:var(--font-disp);font-size:20px;font-weight:800;letter-spacing:-.01em}
+.brand em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand small{display:block;font-size:var(--fs-0);color:var(--dim);
+  font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-top:2px}
+.topAcoes{display:flex;align-items:center;gap:9px;flex:0 0 auto}
+.avatar{width:36px;height:36px;border-radius:50%;border:1px solid var(--stroke-2);
+  flex:0 0 auto;background:var(--glass);object-fit:cover}
+.temaBtn{width:36px;height:36px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;
+  color:var(--mut);background:var(--glass);backdrop-filter:var(--blur-s);-webkit-backdrop-filter:var(--blur-s);
+  border:1px solid var(--stroke);transition:all var(--t-2) var(--ease)}
+.temaBtn:hover{border-color:var(--acento);color:var(--acento-hi);box-shadow:0 0 16px var(--halo)}
+.temaBtn:active{transform:translateY(2px)}
+.temaBtn .ico-sol,.temaBtn .ico-lua{grid-area:1/1}
+html[data-tema="claro"] .temaBtn .ico-sol{display:none}
+html:not([data-tema="claro"]) .temaBtn .ico-lua{display:none}
+
+/* =========================== telas =========================== */
+.screen{display:none;padding:0 var(--sp-4) calc(var(--nav-h) + var(--safe-b) + 26px)}
+.screen.active{display:block;animation:entra var(--t-3) var(--ease)}
+@keyframes entra{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.voltar{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-2);font-weight:700;
+  color:var(--mut);padding:8px 14px 8px 10px;border-radius:var(--r-pill);
+  border:1px solid var(--stroke);background:var(--glass);
+  backdrop-filter:var(--blur-s);-webkit-backdrop-filter:var(--blur-s);
+  margin:10px 0;transition:all var(--t-2) var(--ease)}
+.voltar:hover{border-color:var(--acento);color:var(--ink)}
+.voltar:active{transform:translateY(2px)}
+
+/* =========================== nav inferior (pill flutuante) =========================== */
+.nav{
+  position:fixed;bottom:calc(14px + var(--safe-b));left:50%;transform:translateX(-50%);
+  z-index:50;width:min(400px,calc(100% - 28px));
+  display:flex;gap:4px;padding:7px;border-radius:var(--r-pill);
+  background:var(--navbg);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--stroke);box-shadow:var(--shadow-2);
+}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;padding:8px 4px;border-radius:var(--r-pill);color:var(--dim);
+  font-size:var(--fs-0);font-weight:600;position:relative;
+  transition:all var(--t-2) var(--ease)}
+.nav button:hover{color:var(--mut)}
+.nav button.on{background:var(--nav-on);color:var(--nav-on-ink);font-weight:700;
+  box-shadow:inset 0 0 0 1px var(--nav-on-line)}
+.nav .badge{position:absolute;top:4px;right:calc(50% - 22px);min-width:16px;height:16px;
+  padding:0 4px;border-radius:var(--r-pill);background:var(--acento);color:var(--acento-ink);
+  font-size:9.5px;font-weight:800;display:grid;place-items:center;line-height:1}
+.nav .badge.red{background:var(--bad);color:#fff}
+.nav .badge.pulsa{animation:pulsa 2s ease-in-out infinite}
+@keyframes pulsa{0%,100%{box-shadow:0 0 0 0 rgba(239,83,80,.55)}
+                 50%    {box-shadow:0 0 0 6px rgba(239,83,80,0)}}
+
+/* =========================== painéis de vidro e cartões =========================== */
+.panel{background:var(--glass);border:1px solid var(--stroke);border-radius:var(--r-l);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  padding:var(--sp-4);margin-bottom:10px;box-shadow:var(--shadow-1)}
+.panel h4{font-size:var(--fs-0);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:10px;font-weight:700;display:flex;align-items:center;gap:8px}
+.sub{font-size:var(--fs-1);color:var(--dim);line-height:1.6;margin-top:9px}
+
+.card{position:relative;display:flex;gap:11px;align-items:flex-start;
+  background:var(--glass);border:1px solid var(--stroke);border-radius:var(--r);
+  backdrop-filter:var(--blur-s);-webkit-backdrop-filter:var(--blur-s);
+  padding:12px 13px;margin-bottom:8px;box-shadow:var(--shadow-1);
+  transition:all var(--t-2) var(--ease)}
+.card:hover{border-color:var(--stroke-2)}
+.card:active{transform:scale(.985)}
+.card .body{flex:1;min-width:0}
+.card .tit{font-size:14px;font-weight:700;line-height:1.3;overflow-wrap:anywhere}
+.card .meta{font-size:var(--fs-1);color:var(--dim);margin-top:4px}
+.card .num{font-family:var(--font-mono);font-size:var(--fs-2);font-weight:700;
+  color:var(--acento-2);font-variant-numeric:tabular-nums}
+.card.on{border-left:2px solid var(--ok)}
+.card.warn{border-left:2px dashed var(--warn)}
+.card.bad{border-left:2px solid var(--bad)}
+
+.tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.05em;
+  padding:2px 7px;border-radius:var(--r-pill);background:var(--glass-2);color:var(--mut)}
+
+/* =========================== botões =========================== */
+.btn{width:100%;padding:13px;border-radius:14px;font-weight:700;font-size:var(--fs-3);
+  background:var(--glass-2);border:1px solid var(--stroke-2);
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  transition:all var(--t-3) var(--ease)}
+.btn:hover{transform:translateY(-2px);border-color:var(--acento);box-shadow:0 10px 26px -12px var(--halo)}
+.btn:active{transform:translateY(2px);box-shadow:none}
+.btn.p{background:var(--grad);color:var(--acento-ink);border-color:transparent;
+  box-shadow:0 14px 28px -10px var(--halo);position:relative;overflow:hidden}
+.btn.p::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.35),transparent);
+  transform:skewX(-20deg);transition:left .6s var(--ease)}
+.btn.p:hover::after{left:130%}
+.btn.p:hover{box-shadow:0 18px 34px -12px var(--halo)}
+.btn.d{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 30%,transparent);
+  background:color-mix(in srgb,var(--bad) 8%,transparent)}
+.btn.d:hover{box-shadow:0 10px 26px -12px color-mix(in srgb,var(--bad) 45%,transparent);border-color:var(--bad)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.btn.compact{width:auto;padding:8px 16px;font-size:var(--fs-2);border-radius:var(--r-pill)}
+.btn.btn-icone{width:42px;height:42px;padding:0;border-radius:50%;flex:0 0 auto;
+  background:var(--glass);backdrop-filter:var(--blur-s);-webkit-backdrop-filter:var(--blur-s);
+  border:1px solid var(--stroke)}
+
+.mini{font-size:var(--fs-1);font-weight:700;padding:7px 12px;border-radius:var(--r-pill);
+  border:1px solid var(--stroke-2);transition:all var(--t-1) var(--ease)}
+.mini:hover{border-color:var(--acento)}
+.mini:active{transform:translateY(1px)}
+.mini.ok{background:var(--ok);color:var(--ok-ink);border-color:transparent}
+.mini.no{background:color-mix(in srgb,var(--bad) 10%,transparent);color:var(--bad);
+  border-color:color-mix(in srgb,var(--bad) 30%,transparent)}
+
+/* =========================== segmented, chips, busca =========================== */
+.seg{display:flex;gap:4px;background:var(--glass);border:1px solid var(--stroke);
+  backdrop-filter:var(--blur-s);-webkit-backdrop-filter:var(--blur-s);
+  border-radius:var(--r-pill);padding:4px;margin:var(--sp-2) 0}
+.seg button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:9px 4px;border-radius:var(--r-pill);font-size:var(--fs-2);font-weight:600;
+  color:var(--dim);transition:all var(--t-2) var(--ease)}
+.seg button.on{background:var(--nav-on);color:var(--nav-on-ink);font-weight:700;
+  box-shadow:inset 0 0 0 1px var(--nav-on-line)}
+.seg button em{font-style:normal;font-size:var(--fs-0);font-weight:800;color:var(--acento-2)}
+
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips.center{justify-content:center;flex-wrap:wrap}
+.chips button{
+  flex:0 0 auto;background:var(--glass);border:1px solid var(--stroke);color:var(--mut);
+  backdrop-filter:var(--blur-s);-webkit-backdrop-filter:var(--blur-s);
+  border-radius:var(--r-pill);padding:9px 17px;font-size:14px;font-weight:600;
+  white-space:nowrap;transition:all var(--t-2) var(--ease)}
+.chips button:hover{border-color:var(--acento);color:var(--ink)}
+.chips button:active{transform:translateY(1px)}
+.chips button.on{background:var(--grad);color:var(--acento-ink);border-color:transparent;
+  font-weight:700;box-shadow:0 8px 20px -8px var(--halo)}
+.chip{flex:0 0 auto;font-size:var(--fs-1);font-weight:600;color:var(--mut);
+  background:var(--glass);border:1px solid var(--stroke);border-radius:var(--r-pill);
+  padding:6px 12px;white-space:nowrap;transition:all var(--t-2) var(--ease)}
+.chip b{color:var(--ink);font-weight:700}
+.chip.on{border-color:var(--acento);background:color-mix(in srgb,var(--acento) 12%,transparent)}
+.chip.lim{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 30%,transparent)}
+
+.busca{display:flex;align-items:center;gap:9px;margin:var(--sp-2) 0;padding:0 14px;
+  background:var(--glass);border:1px solid var(--stroke);border-radius:var(--r);
+  backdrop-filter:var(--blur-s);-webkit-backdrop-filter:var(--blur-s);
+  transition:all var(--t-2) var(--ease)}
+.busca:focus-within{border-color:var(--acento);box-shadow:0 0 0 4px color-mix(in srgb,var(--acento) 12%,transparent)}
+.busca svg{color:var(--dim);flex:0 0 auto}
+.busca input{flex:1;background:none;border:0;outline:0;color:var(--ink);
+  font-size:14.5px;padding:13px 0;min-width:0}
+.busca input::placeholder{color:var(--dim)}
+.busca button{color:var(--dim);display:grid;place-items:center;padding:6px;flex:0 0 auto}
+.buscaInfo{font-family:var(--font-mono);font-size:var(--fs-1);color:var(--acento-2);
+  font-weight:700;margin:2px 2px 8px;font-variant-numeric:tabular-nums}
+
+/* busca de acorde (dicionário) */
+.search-wrap{position:relative;margin-bottom:16px}
+.search-card{display:flex;align-items:center;padding:0 16px;margin-bottom:0}
+.search-card svg{color:var(--mut);flex:0 0 auto}
+.search-card input{flex:1;background:none;border:0;outline:0;color:var(--ink);
+  font-size:15px;padding:14px 12px;min-width:0}
+.search-card input::placeholder{color:var(--dim)}
+.search-wrap:focus-within .search-card{border-color:var(--acento);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--acento) 12%,transparent)}
+.debug-notas{text-align:center;font-size:14px;font-weight:600;margin-bottom:16px;color:var(--acento-2)}
+.acoes-dicionario{display:flex;gap:12px;justify-content:center;margin-top:32px;flex-wrap:wrap}
+.acoes-dicionario .btn{width:auto;padding:11px 18px}
+
+/* =========================== autocomplete =========================== */
+.autocomplete-list{
+  position:absolute;top:calc(100% + 8px);left:0;right:0;
+  background:var(--sheetbg);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--stroke);border-radius:var(--r);
+  box-shadow:var(--shadow-2);max-height:240px;overflow-y:auto;z-index:999;
+  display:none;flex-direction:column}
+.autocomplete-list.active{display:flex;animation:entra var(--t-2) var(--ease)}
+.autocomplete-item{padding:13px 16px;cursor:pointer;border-bottom:1px solid var(--fio);
+  font-size:15px;color:var(--ink);display:flex;align-items:center;
+  transition:background var(--t-1) var(--ease)}
+.autocomplete-item:last-child{border-bottom:none}
+.autocomplete-item:active,.autocomplete-item:hover{background:var(--glass-2)}
+.autocomplete-item b{color:var(--acento-2);margin-right:4px}
+
+/* =========================== barra de ação em lote =========================== */
+.loteBar{position:fixed;left:50%;transform:translateX(-50%);
+  bottom:calc(var(--nav-h) + var(--safe-b) + 12px);
+  width:min(calc(var(--largura) - 24px),calc(100% - 24px));z-index:45;
+  display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:var(--r-l);
+  background:var(--barbg);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--stroke-2);box-shadow:var(--shadow-2)}
+.loteBar .n{flex:1;font-size:var(--fs-2);font-weight:700}
+
+.linha{display:flex;align-items:center;gap:9px;padding:10px 2px;border-bottom:1px solid var(--fio)}
+.linha:last-of-type{border-bottom:0}
+.linha.sel{background:color-mix(in srgb,var(--acento) 8%,transparent);border-radius:var(--r-s)}
+.chk{width:21px;height:21px;border-radius:7px;border:1.6px solid var(--stroke-2);
+  flex:0 0 auto;display:grid;place-items:center;font-size:12px;font-weight:900;
+  color:transparent;background:var(--glass);transition:all var(--t-1) var(--ease)}
+.chk.on{background:var(--acento);border-color:var(--acento);color:var(--acento-ink)}
+.linha img,.linha .ini{width:30px;height:30px;border-radius:50%;flex:0 0 auto;
+  border:1px solid var(--stroke-2);object-fit:cover;background:var(--ph)}
+.linha .ini{display:grid;place-items:center;font-size:12.5px;font-weight:800;
+  color:var(--acento-ink);background:var(--acento);border:0}
+.linha .qm{flex:1;min-width:0}
+.linha .qm b{display:block;font-size:var(--fs-2);font-weight:700;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.linha .qm span{display:block;font-size:var(--fs-1);color:var(--dim);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.linha .acoes{display:flex;gap:5px;flex:0 0 auto}
+
+/* =========================== bottom-sheet =========================== */
+.scrim{position:fixed;inset:0;z-index:60;background:var(--scrim);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity var(--t-3) var(--ease)}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:61;max-width:var(--largura);margin:0 auto;
+  background:var(--sheetbg);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--stroke);border-bottom:0;
+  border-radius:var(--r-l) var(--r-l) 0 0;
+  padding:10px var(--sp-4) calc(22px + var(--safe-b));
+  transform:translateY(102%);transition:transform var(--t-3) cubic-bezier(.32,.72,0,1);
+  max-height:86dvh;overflow-y:auto;box-shadow:var(--shadow-2);
+}
+.sheet.on{transform:none}
+.grip{width:38px;height:4px;border-radius:3px;background:var(--stroke-2);margin:0 auto 14px}
+.sheet h3{font-size:var(--fs-4);font-weight:800;margin-bottom:4px}
+.sheet .desc{font-size:var(--fs-2);color:var(--mut);line-height:1.6;margin-bottom:12px}
+.opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  padding:14px 4px;border-bottom:1px solid var(--fio);font-size:var(--fs-3);
+  transition:color var(--t-1) var(--ease)}
+.opt.on{color:var(--acento-2);font-weight:700}
+
+/* =========================== toast, vazio, spinner =========================== */
+.toast{position:fixed;left:50%;transform:translateX(-50%) translateY(18px);
+  bottom:calc(var(--nav-h) + var(--safe-b) + 18px);z-index:80;
+  max-width:340px;padding:12px 18px;border-radius:var(--r-pill);
+  background:var(--barbg);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border:1px solid var(--stroke-2);box-shadow:var(--shadow-2);
+  font-size:var(--fs-2);font-weight:600;text-align:center;
+  opacity:0;pointer-events:none;transition:all var(--t-3) var(--ease)}
+.toast.on{opacity:1;transform:translateX(-50%)}
+
+.vazio{text-align:center;padding:44px 20px;color:var(--dim)}
+.vazio b{display:block;font-size:var(--fs-3);color:var(--mut);margin-bottom:4px}
+.vazio span{font-size:var(--fs-2)}
+
+.spin{width:22px;height:22px;border-radius:50%;margin:0 auto;
+  border:2px solid var(--stroke);border-top-color:var(--acento);
+  animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* =========================== gate (login / espera) =========================== */
+.gate{position:fixed;inset:0;z-index:90;display:none;place-items:center;padding:26px;
+  background:var(--aura),var(--bg)}
+.gate.on{display:grid}
+.gate .in{max-width:340px;text-align:center;width:100%;
+  animation:entra var(--t-3) var(--ease)}
+.gate h1{font-family:var(--font-disp);font-size:32px;font-weight:800;
+  line-height:1.12;margin-bottom:8px;letter-spacing:-.02em}
+.gate h1 em{font-style:normal;background:var(--grad);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.gate p{font-size:var(--fs-2);color:var(--mut);line-height:1.6;margin-bottom:26px;font-weight:300}
+.gate .btn{margin-bottom:9px}
+.gate .btn.g{background:#fff;color:#1f1f1f;border-color:#fff}
+.gate .panel{text-align:left;margin-bottom:16px}
+
+.role{font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  padding:3px 9px;border-radius:var(--r-pill);
+  background:color-mix(in srgb,var(--acento) 14%,transparent);color:var(--acento-hi)}
+.role.admin{background:color-mix(in srgb,var(--acento-2) 16%,transparent);color:var(--acento-2)}
+
+/* =========================== construtor de música =========================== */
+.construtor-topo{display:flex;align-items:center;margin:14px 0 16px;gap:12px}
+.input-titulo{flex:1;border:none;background:transparent;font-size:24px;font-weight:800;
+  color:var(--ink);outline:none;min-width:0;font-family:var(--font-ui)}
+.input-titulo::placeholder{color:var(--dim);font-weight:600}
+.secoes-musica{display:flex;flex-direction:column;gap:24px;padding-bottom:110px}
+.barra-construtor{position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:var(--largura);z-index:46;
+  padding:16px 16px calc(var(--nav-h) + var(--safe-b) + 12px);
+  background:linear-gradient(to top,var(--bg) 55%,transparent);
+  display:flex;gap:12px;justify-content:center}
+.barra-construtor .btn{width:auto;flex:1;max-width:210px}
+
+/* =========================== REPERTÓRIO — visão da música ===========================
+   Esqueleto que o JS injeta em #visaoMusica (classes prontas abaixo):
+   .visao-header  → voltar + títulos + badge do tom
+   .transpose-card→ −½ / tom atual / +½  + salvar
+   .chips-acordes → chips de acordes (reusa .chips)
+   .card-teclado  → painel de vidro onde o teclado entra          */
+.visao-header{display:flex;align-items:center;gap:12px;margin:14px 0 16px}
+.visao-titulos{flex:1;min-width:0}
+.visao-titulos small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim)}
+.visao-titulos h2{font-size:23px;font-weight:800;color:var(--ink);line-height:1.12;margin:0}
+/* badge do tom = BOTÃO que abre/fecha o painel de transposição.
+   JS: alterna .aberta nele e no .transpose-card */
+.tom-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 13px;
+  border-radius:var(--r-pill);flex:0 0 auto;cursor:pointer;
+  background:color-mix(in srgb,var(--acento) 14%,transparent);
+  border:1px solid color-mix(in srgb,var(--acento) 35%,transparent);
+  color:var(--acento-hi);font-size:12.5px;font-weight:700;
+  transition:all var(--t-2) var(--ease)}
+.tom-badge::after{content:"";width:7px;height:7px;flex:0 0 auto;
+  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:rotate(45deg) translateY(-1px);transition:transform var(--t-2) var(--ease)}
+.tom-badge:hover{border-color:var(--acento);box-shadow:0 0 14px var(--halo)}
+.tom-badge:active{transform:translateY(1px)}
+.tom-badge.aberta::after{transform:rotate(225deg) translateY(-2px)}
+html[data-tema="claro"] .tom-badge{color:var(--acento)}
+
+/* recolhido por padrão — em cena o espaço é do teclado */
+.transpose-card{background:var(--glass);border:1px solid var(--stroke);border-radius:var(--r-l);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  box-shadow:var(--shadow-2);overflow:hidden;
+  max-height:0;opacity:0;padding:0 16px;margin-bottom:0;border-width:0;
+  transform:translateY(-6px);
+  transition:max-height var(--t-3) var(--ease),opacity var(--t-3) var(--ease),
+    padding var(--t-3) var(--ease),margin var(--t-3) var(--ease),
+    transform var(--t-3) var(--ease)}
+.transpose-card.aberta{max-height:240px;opacity:1;padding:16px;margin-bottom:16px;
+  border-width:1px;transform:none}
+.transpose-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.btn-trans{width:52px;height:52px;border-radius:16px;flex:0 0 auto;
+  background:var(--glass-2);border:1px solid var(--stroke-2);color:var(--ink);
+  font-size:17px;font-weight:700;display:grid;place-items:center;
+  transition:all var(--t-3) var(--ease)}
+.btn-trans:hover{transform:translateY(-2px);border-color:var(--acento);
+  box-shadow:0 0 18px var(--halo)}
+.btn-trans:active{transform:translateY(2px);box-shadow:none}
+.tom-display{text-align:center;flex:1}
+.tom-display small{display:block;font-size:10px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--dim)}
+.tom-display b{display:block;font-size:38px;font-weight:800;line-height:1.05;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn-salvar-tom{margin-top:14px}
+
+.chips-acordes{margin-bottom:16px}
+.cards-teclados{display:flex;flex-direction:column;gap:16px}
+.card-teclado{background:var(--glass);border:1px solid var(--stroke);border-radius:var(--r-l);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  padding:14px;box-shadow:var(--shadow-2)}
+.card-teclado-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+/* teclas mais ALTAS na visão da música (modo palco).
+   Só altura: as LARGURAS (44/28) ficam intactas — o JS usa-as p/ posicionar as pretas. */
+.card-teclado .teclado-container{margin-top:0;padding:12px 8px}
+.card-teclado .tecla-branca{height:clamp(170px,36dvh,280px)}
+.card-teclado .tecla-preta{height:clamp(105px,22dvh,175px)}
+.card-teclado-head .acorde-nome{font-size:26px;font-weight:800;color:var(--ink)}
+.card-teclado-head .tag-inversao{padding:4px 11px;border-radius:var(--r-pill);
+  background:color-mix(in srgb,var(--acento) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--acento) 30%,transparent);
+  color:var(--acento-hi);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+html[data-tema="claro"] .card-teclado-head .tag-inversao{color:var(--acento)}
+.card-teclado-head .notas{margin-left:auto;font-size:12px;font-weight:600;color:var(--dim)}
+
+.cabecalho-lista{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.cabecalho-lista h2{margin:0;font-size:20px;font-weight:800}
+
+/* =========================== teclado (piano) =========================== */
+/* Geometria preservada do app original (44/28px, 54/34 em landscape):
+   o JS posiciona as teclas pretas com base nessas larguras. */
+#teclado-container{overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none}
+#teclado-container::-webkit-scrollbar{display:none}
+.teclado-container{
+  width:100%;overflow:hidden;
+  background:var(--glass);border:1px solid var(--stroke);border-radius:var(--r-l);
+  backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  padding:14px 10px;display:flex;justify-content:center;align-items:center;
+  touch-action:none;margin-top:20px;box-shadow:var(--shadow-1);
+}
+.teclado{display:flex;position:relative;transform-origin:center center;
+  transition:transform .1s ease-out}
+.tecla-branca{
+  width:44px;height:150px;
+  background:var(--tecla-b);
+  border:1px solid var(--tecla-line);
+  border-radius:0 0 7px 7px;position:relative;
+  display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px;
+  font-family:var(--font-disp);font-weight:700;font-size:14px;color:var(--tecla-ink);
+  box-shadow:inset 0 -5px 0 var(--tecla-sombra);
+  transition:all var(--t-2) var(--ease);z-index:1;
+}
+.tecla-preta{
+  width:28px;height:95px;
+  background:var(--tecla-p);
+  border:1px solid var(--tecla-line);border-top:none;
+  border-radius:0 0 6px 6px;position:absolute;top:0;
+  display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;
+  font-family:var(--font-disp);font-size:11px;font-weight:700;color:var(--tecla-p-ink);
+  transition:all var(--t-2) var(--ease);z-index:2;
+}
+
+/* estado ativo — glow no tom do tema */
+.tecla-branca.ativa{
+  background:var(--tecla-ativa) !important;
+  color:var(--tecla-ativa-ink) !important;
+  border-color:transparent !important;
+  box-shadow:0 0 22px var(--halo), inset 0 -5px 0 rgba(0,0,0,.18) !important;
+}
+.tecla-preta.ativa{
+  background:var(--tecla-p-ativa) !important;
+  color:var(--tecla-ativa-ink) !important;
+  border-color:transparent !important;
+  box-shadow:0 0 20px var(--halo), inset 0 -4px 0 rgba(0,0,0,.18) !important;
+}
+
+@media (orientation: landscape){
+  .teclado-container{padding:24px}
+  .tecla-branca{width:54px;height:180px}
+  .tecla-preta{width:34px;height:110px}
+}
+
+/* =========================== acessibilidade =========================== */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:1ms !important;animation-iteration-count:1 !important;
+    transition-duration:120ms !important;
+    transition-property:opacity,color,background-color,border-color !important;
+  }
+  .spin{animation:sp .7s linear infinite !important}
+  body::before,body::after{animation:none !important}
+  .card:active,.btn:active,.mini:active,.temaBtn:active{transform:none}
+}
+
+/* ==========================================================================
+   RELATÓRIO HARMÔNICO PREMIUM — opção 3a
+   Cole tudo no FIM do styles.css, SUBSTITUINDO o bloco antigo
+   "=========== RELATÓRIO HARMÔNICO ===========".
+   Fonte: Outfit (já carregada no index.html). Nenhuma classe antiga é usada.
+   Dica: no index.html pode remover o style inline background:#1a1a1a;color:#fff
+   do <main id="scr-relatorio"> — o CSS abaixo já cuida disso.
+   ========================================================================== */
+
+/* As variáveis valem para as DUAS telas premium: o Relatório e o Como Tocar.
+   Sem isto, o Como Tocar perde o dourado, os cards e a pílula do tom. */
+#scr-relatorio, #scr-comotocar{
+  /* paleta da tela — mexa só aqui para ajustar o tom */
+  --rh-bg:#0E0B0A;
+  --rh-ink:#F7EFE2;
+  --rh-mut:#C9B9AD;
+  --rh-dim:#9A8578;
+  --rh-dim2:#A1887F;
+  --rh-gold:#FFCA28;
+  --rh-gold-2:#E6A700;
+  --rh-gold-3:#C9A24A;
+  --rh-surf:rgba(255,255,255,.045);
+  --rh-surf-2:rgba(255,255,255,.035);
+  --rh-line:rgba(255,213,79,.14);
+  --rh-line-2:rgba(255,255,255,.07);
+
+  background:
+    radial-gradient(680px 420px at 12% -8%,rgba(255,202,40,.10),transparent 62%),
+    var(--rh-bg) !important;
+  color:var(--rh-ink) !important;
+  font-family:'Outfit',var(--font-ui);
+  padding:0 0 60px !important;
+}
+
+/* a barra de voltar do Como Tocar não precisa da folga de 24px do HTML antigo */
+#scr-comotocar > div:first-child{
+  margin-bottom:0 !important;
+  border-bottom:1px solid var(--rh-line-2) !important;
+}
+
+/* barra de voltar que já existe no index.html */
+#scr-relatorio > div:first-child{
+  padding:calc(env(safe-area-inset-top,0px) + 14px) 22px 14px !important;
+  margin-bottom:0 !important;
+  border-bottom:1px solid var(--rh-line-2) !important;
+  gap:14px !important;
+}
+#scr-relatorio > div:first-child h2{
+  font:700 11px 'Outfit' !important;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--rh-dim) !important;
+}
+#scr-relatorio .btn-icone{
+  background:var(--rh-surf);border:1px solid rgba(255,213,79,.18);color:var(--rh-ink)
+}
+#conteudoRelatorioHarmonico{gap:0 !important}
+
+#scr-relatorio .rh-vazio{padding:60px 24px;text-align:center;color:var(--rh-dim);font-size:15px}
+
+/* ---------------------------------------------------------------- cabeçalho */
+.rh-head{padding:26px 22px 24px}
+.rh-eyebrow{font:700 10.5px 'Outfit';letter-spacing:.2em;text-transform:uppercase;color:var(--rh-dim)}
+.rh-titulo{
+  font:800 32px/1.1 'Outfit';letter-spacing:-.02em;margin:8px 0 14px;
+  color:var(--rh-ink);text-wrap:pretty
+}
+.rh-pills{display:flex;flex-wrap:wrap;gap:8px}
+.rh-pill{
+  padding:7px 14px;border-radius:999px;font:600 12.5px 'Outfit';
+  background:var(--rh-surf);border:1px solid rgba(255,213,79,.16);color:var(--rh-mut)
+}
+.rh-pill-on{
+  background:linear-gradient(135deg,#FFD54F,var(--rh-gold-2));
+  border-color:transparent;color:#2A1A12;font-weight:800
+}
+
+/* ------------------------------------------------------------------- blocos */
+.rh-bloco{padding:0 22px 30px}
+.rh-label{
+  font:700 10.5px 'Outfit';letter-spacing:.2em;text-transform:uppercase;
+  color:var(--rh-dim);margin-bottom:16px
+}
+
+/* ------------------------------------------------------------ como você toca */
+.rh-salvo{display:flex;flex-direction:column;gap:10px}
+.rh-secao{
+  padding:16px 18px;border-radius:20px;
+  background:var(--rh-surf-2);border:1px solid var(--rh-line-2)
+}
+.rh-secao-tit{
+  font:700 11px 'Outfit';letter-spacing:.14em;text-transform:uppercase;
+  color:var(--rh-dim2);margin-bottom:12px
+}
+.rh-secao-seq{
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+  font:800 17px 'Outfit';color:var(--rh-ink)
+}
+.rh-secao-seq b{font-weight:800;display:inline-flex;align-items:baseline;gap:3px}
+.rh-secao-seq .rh-rep{font:700 11px 'Outfit';font-style:normal;color:var(--rh-gold-3)}
+.rh-secao-seq .rh-seta{font-size:14px;font-weight:400;color:#6E5A4C}
+
+/* ---------------------------------------------------------- curva de tensão */
+.rh-curva{
+  margin:0 14px 30px;padding:20px 18px 16px;border-radius:28px;
+  background:linear-gradient(180deg,rgba(255,202,40,.07),rgba(255,255,255,.02));
+  border:1px solid var(--rh-line)
+}
+.rh-curva-top{
+  display:flex;justify-content:space-between;
+  font:700 9.5px 'Outfit';letter-spacing:.16em;text-transform:uppercase;
+  color:var(--rh-dim2);margin-bottom:14px
+}
+.rh-graf-wrap{overflow-x:auto;scrollbar-width:none}
+.rh-graf-wrap::-webkit-scrollbar{display:none}
+.rh-graf-inner{min-width:calc(var(--rh-n,4) * 62px)}
+.rh-graf{position:relative;height:200px}
+.rh-grid{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between}
+.rh-grid i{height:1px;background:rgba(255,255,255,.06)}
+.rh-linha{position:absolute;inset:0;width:100%;height:100%}
+.rh-no{
+  position:absolute;transform:translate(-50%,-50%);
+  min-width:36px;height:36px;padding:0 6px;border-radius:999px;
+  display:grid;place-items:center;
+  background:#1A1210;border:1.5px solid rgba(255,213,79,.35);
+  color:var(--rh-ink);font:800 13px 'Outfit';white-space:nowrap
+}
+.rh-no-on{
+  background:linear-gradient(135deg,#FFD54F,var(--rh-gold-2));
+  border-color:transparent;color:#2A1A12;
+  box-shadow:0 0 20px rgba(255,202,40,.45)
+}
+.rh-eixo{
+  display:flex;margin-top:6px;padding-top:14px;
+  border-top:1px solid var(--rh-line-2)
+}
+.rh-eixo-col{flex:1;min-width:0;text-align:center;display:flex;flex-direction:column;gap:3px}
+.rh-eixo-i{font:700 9.5px 'Outfit';color:var(--rh-dim2)}
+.rh-eixo-c{font:800 17px 'Outfit';color:var(--rh-ink)}
+.rh-eixo-g{font:700 10px 'Outfit';letter-spacing:.1em;color:var(--rh-dim2)}
+.rh-eixo-c.rh-on{color:var(--rh-gold)}
+.rh-eixo-g.rh-on{color:var(--rh-gold-3)}
+
+/* ------------------------------------------------------- trilha do fluxo */
+.rh-trilha{display:block}
+.rh-acorde{
+  display:flex;align-items:center;gap:14px;
+  padding:18px 20px;border-radius:20px;
+  background:var(--rh-surf);border:1px solid var(--rh-line)
+}
+.rh-acorde-on{
+  background:linear-gradient(180deg,rgba(255,202,40,.13),rgba(255,202,40,.03));
+  border-color:var(--rh-gold);
+  box-shadow:0 14px 34px -20px rgba(255,202,40,.7)
+}
+.rh-ac-col{width:44px;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:5px}
+.rh-idx{font:800 11px 'Outfit';color:var(--rh-dim2)}
+.rh-grau{
+  width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,213,79,.10);border:1.5px solid rgba(255,213,79,.30);
+  color:var(--rh-gold);font:800 14px 'Outfit'
+}
+.rh-grau-on{
+  background:linear-gradient(135deg,#FFD54F,var(--rh-gold-2));
+  border-color:transparent;color:#2A1A12;font-size:12.5px
+}
+.rh-ac-body{flex:1;min-width:0}
+.rh-cifra{font:800 26px/1 'Outfit';color:var(--rh-ink)}
+.rh-acorde-on .rh-cifra{color:var(--rh-gold)}
+.rh-notas{
+  font:500 12.5px 'Outfit';letter-spacing:.05em;
+  color:var(--rh-dim);margin-top:6px;overflow-wrap:anywhere
+}
+.rh-acorde-on .rh-notas{color:#A8917F}
+.rh-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.rh-badge{
+  padding:6px 11px;border-radius:999px;
+  background:rgba(255,202,40,.14);border:1px solid rgba(255,202,40,.45);
+  color:var(--rh-gold);font:700 11px 'Outfit'
+}
+.rh-ac-func{
+  flex:0 0 auto;max-width:78px;text-align:right;
+  font:600 11px/1.3 'Outfit';letter-spacing:.08em;text-transform:uppercase;
+  color:var(--rh-dim2)
+}
+
+/* -------------------------------------------------- transição entre acordes */
+.rh-transicao{
+  margin-left:21px;padding:18px 0 18px 22px;
+  border-left:1.5px dashed rgba(255,213,79,.35)
+}
+.rh-transicao-fim{border-left:1.5px solid rgba(255,213,79,.5)}
+.rh-tr-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.rh-tr-par{font:800 13px 'Outfit';color:var(--rh-gold)}
+.rh-tr-tag{
+  font:700 10px 'Outfit';letter-spacing:.1em;text-transform:uppercase;
+  color:var(--rh-dim2);text-align:right
+}
+.rh-vozes{
+  display:flex;flex-direction:column;gap:1px;
+  border-radius:14px;overflow:hidden;background:rgba(255,255,255,.04);margin-bottom:14px
+}
+.rh-voz{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:11px 14px;font:600 13.5px 'Outfit';color:var(--rh-mut)
+}
+.rh-voz:nth-child(even){background:rgba(0,0,0,.2)}
+.rh-voz i{font-style:normal;color:#6E5A4C;margin:0 2px}
+.rh-voz em{font-style:normal;font:700 11.5px 'Outfit';color:var(--rh-gold);white-space:nowrap}
+.rh-voz-parada{color:var(--rh-ink)}
+.rh-voz-parada em{color:var(--rh-gold-3)}
+.rh-porque{
+  margin:0;font:400 13.5px/1.65 'Outfit';color:var(--rh-mut);text-wrap:pretty
+}
+.rh-ciclo{
+  display:flex;align-items:center;gap:10px;
+  margin:16px 0 0 21px;padding:14px 18px;border-radius:16px;
+  background:rgba(255,255,255,.03);border:1px dashed rgba(255,213,79,.28);
+  font:500 12.5px/1.5 'Outfit';color:var(--rh-mut)
+}
+.rh-ciclo span{font-size:15px;color:var(--rh-gold)}
+
+/* -------------------------------------------------------- função dos acordes */
+.rh-funcoes{display:flex;flex-direction:column}
+.rh-fn{
+  display:flex;align-items:center;gap:16px;
+  padding:16px 4px;border-bottom:1px solid rgba(255,255,255,.06)
+}
+.rh-fn:last-child{border-bottom:0}
+.rh-fn-cifra{width:52px;flex:0 0 auto;font:800 20px 'Outfit';color:var(--rh-gold)}
+.rh-fn-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.rh-fn-txt b{font:700 13.5px 'Outfit';color:var(--rh-ink)}
+.rh-fn-txt span{font:400 12.5px 'Outfit';color:var(--rh-dim)}
+
+/* ------------------------------------------------------------------- frase */
+.rh-frase{
+  padding:22px;border-radius:22px;
+  background:linear-gradient(160deg,rgba(255,202,40,.10),rgba(255,255,255,.02));
+  border:1px solid rgba(255,213,79,.20);
+  font:400 15px/1.6 'Outfit';color:var(--rh-ink);text-wrap:pretty
+}
+.rh-frase b{color:var(--rh-gold);font-weight:700}
+
+/* telas bem estreitas (≤ 360px) */
+@media (max-width:360px){
+  .rh-titulo{font-size:28px}
+  .rh-ac-func{display:none}
+  .rh-cifra{font-size:24px}
+}
+/* =========================== TECLADO VISUAL =========================== */
+.v-keyboard {
+  position: relative;
+  height: 80px;
+  background: #111;
+  border-radius: 6px;
+  border: 1px solid #333;
+  padding: 4px;
+  display: flex;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+  margin-top: 16px;
+  user-select: none;
+}
+.v-key {
+  position: relative;
+  flex: 1;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 0 0 4px 4px;
+  margin: 0 1px;
+  z-index: 1;
+  transition: background 0.1s;
+}
+.v-key.black {
+  position: absolute;
+  width: calc(100% / 14 - 4px); /* assuming roughly 2 octaves */
+  height: 60%;
+  background: #222;
+  border: 1px solid #000;
+  border-radius: 0 0 3px 3px;
+  z-index: 2;
+  margin-left: calc(-100% / 28 + 2px);
+  transform: translateX(-50%);
+}
+/* We will position black keys via inline styles in JS to be safe */
+.v-key.lit {
+  background: #ffca28 !important;
+  box-shadow: 0 0 15px #ffca28, inset 0 0 10px rgba(255, 202, 40, 0.5) !important;
+}
+.v-key.black.lit {
+  background: #ffca28 !important;
+}
+
+
+/* ====== AULA & HEADER ====== */
+
+/* ============================================================================
+   PATCH DE CSS — 2 blocos independentes
+   Cole cada bloco no lugar indicado dentro de styles.css.
+   Nenhum token novo foi inventado: só as variáveis que você já tem.
+   ========================================================================== */
+
+
+/* ============================================================================
+   BLOCO A — CABEÇALHO DA MÚSICA
+   SUBSTITUIR as 5 linhas atuais (de ".visao-header{display:flex..." até
+   ".visao-titulos h2{...}") dentro de "REPERTÓRIO — visão da música".
+   O cabeçalho passa a ser uma COLUNA de 2 fileiras: identidade + ações.
+   Nada mais encavala porque título e botões deixam de disputar a mesma linha.
+   ========================================================================== */
+.visao-header{display:flex;flex-direction:column;gap:10px;margin:12px 0 14px}
+
+/* fileira 1 — voltar · títulos · editar */
+.vh-top{display:flex;align-items:center;gap:10px;min-width:0}
+.visao-titulos{flex:1;min-width:0}
+.visao-titulos small{display:block;font-size:9.5px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+.visao-titulos h2{margin:0;font-size:19px;font-weight:800;line-height:1.15;
+  letter-spacing:-.01em;color:var(--ink);text-wrap:pretty;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.visao-header .btn.btn-icone{width:38px;height:38px}
+.visao-header .btn.btn-icone.edit-musica{width:34px;height:34px;margin-right:-2px;
+  color:var(--mut)}
+.visao-header .btn.btn-icone.edit-musica:hover{color:var(--ink)}
+
+/* fileira 2 — ações. Rola na horizontal em telas minúsculas em vez de quebrar
+   linha: a altura do cabeçalho nunca muda, independente do nome da música. */
+.vh-acoes{display:flex;align-items:center;gap:6px;margin:0 -2px;padding:2px;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;-ms-overflow-style:none}
+.vh-acoes::-webkit-scrollbar{display:none}
+.vh-chip{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;cursor:pointer;
+  padding:9px 13px;border-radius:var(--r-pill);white-space:nowrap;
+  font-size:12px;font-weight:700;line-height:1;
+  background:var(--glass);border:1px solid var(--stroke);color:var(--mut);
+  backdrop-filter:var(--blur-s);-webkit-backdrop-filter:var(--blur-s);
+  transition:all var(--t-2) var(--ease)}
+.vh-chip i{font-style:normal;font-size:13px;line-height:1}
+.vh-chip:hover{color:var(--ink);border-color:var(--stroke-2)}
+.vh-chip:active{transform:translateY(1px)}
+/* estado ligado — o JS pode dar .on quando o painel correspondente estiver aberto */
+.vh-chip.on{background:color-mix(in srgb,var(--acento) 16%,transparent);
+  border-color:color-mix(in srgb,var(--acento) 40%,transparent);color:var(--acento-hi)}
+html[data-tema="claro"] .vh-chip.on{color:var(--acento)}
+/* o badge do tom continua sendo o .tom-badge que você já tem, só encolhido
+   e empurrado para a direita da fileira */
+.vh-acoes .tom-badge{margin-left:auto;padding:9px 12px;font-size:12px}
+
+
+/* ============================================================================
+   BLOCO B — AULA PRÁTICA (Como Tocar)
+   COLAR NO FIM do styles.css (depois do bloco TECLADO VISUAL).
+   Substitui todos os estilos inline que estavam no montarComoTocarHTML.
+   ========================================================================== */
+.rh-head.ct-head{padding:16px 16px 12px}
+.ct-head-row{display:flex;align-items:flex-start;gap:10px}
+.ct-head-id{flex:1;min-width:0}
+.ct-titulo{font:800 20px/1.15 'Outfit';letter-spacing:-.01em;margin:4px 0 0;
+  color:var(--rh-ink);text-wrap:pretty}
+.ct-head-row .rh-pill{flex:0 0 auto;margin-top:3px;padding:5px 11px;font-size:11px}
+
+.ct-wrap{display:flex;flex-direction:column;gap:12px;padding:0 16px 28px}
+
+.ct-card{background:var(--rh-surf-2);border:1px solid var(--rh-line-2);
+  border-radius:18px;padding:14px 14px 0;overflow:hidden}
+.ct-card-head{display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:10px}
+.ct-card-tit{display:flex;align-items:center;gap:7px;min-width:0;margin:0;
+  font:800 11.5px/1.25 'Outfit';letter-spacing:.09em;text-transform:uppercase;
+  color:var(--rh-gold)}
+.ct-card-tit span{flex:0 0 auto;font-size:14px}
+.ct-card-tit em{font-style:normal;font-weight:600;color:var(--rh-dim2)}
+
+/* botão de áudio — pílula dourada, 32px de altura, com triângulo em CSS */
+.ct-play{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;
+  width:auto;height:32px;padding:0 13px;border:0;border-radius:11px;
+  white-space:nowrap;cursor:pointer;
+  font:800 11.5px 'Outfit';letter-spacing:.01em;color:#2A1A12;
+  background:linear-gradient(135deg,#FFD54F,var(--rh-gold-2));
+  box-shadow:0 8px 18px -10px rgba(255,202,40,.9);
+  transition:transform var(--t-2) var(--ease),box-shadow var(--t-2) var(--ease)}
+.ct-play::before{content:"";flex:0 0 auto;width:0;height:0;
+  border-left:8px solid currentColor;
+  border-top:5px solid transparent;border-bottom:5px solid transparent}
+.ct-play:hover{box-shadow:0 10px 22px -8px rgba(255,202,40,.95)}
+.ct-play:active{transform:translateY(1px);box-shadow:none}
+
+.ct-txt{margin:0;font:400 13.5px/1.6 'Outfit';color:var(--rh-mut);text-wrap:pretty}
+.ct-txt b{color:var(--rh-ink);font-weight:700}
+.ct-bloco{margin-top:12px}
+.ct-sub{display:block;font:800 13.5px 'Outfit';color:var(--rh-ink);margin-bottom:3px}
+
+.ct-alerta{margin-top:12px;padding:10px 12px;border-radius:13px;
+  background:rgba(255,202,40,.09);border:1px solid rgba(255,202,40,.28)}
+.ct-alerta-tit{display:flex;align-items:center;gap:6px;margin-bottom:4px;
+  font:800 11.5px 'Outfit';letter-spacing:.03em;color:var(--rh-gold)}
+.ct-alerta p{margin:0;font:400 12.5px/1.55 'Outfit';color:#E0CBA1}
+.ct-alerta p b{color:var(--rh-gold-3);font-weight:700}
+
+/* teclado embutido no rodapé do card — vira o "chão" do bloco, sem moldura solta */
+.ct-kbd{margin:14px -14px 0}
+.ct-kbd .v-keyboard{height:62px;margin:0;padding:3px;
+  border-radius:0;border-width:1px 0 0;
+  background:linear-gradient(180deg,#151010,#0B0908);
+  box-shadow:inset 0 3px 9px rgba(0,0,0,.6)}
+.ct-kbd .v-key{border-radius:0 0 3px 3px}
+
+/* telas bem estreitas (≤ 360px) — pode juntar ao @media que já existe */
+@media (max-width:360px){
+  .ct-titulo{font-size:18px}
+  .ct-card-tit{font-size:11px;letter-spacing:.06em}
+  .ct-play{padding:0 11px}
+  .vh-chip{padding:9px 11px;font-size:11.5px}
+}
+
+/* ============================================================================
+   SELETOR DE LEVADA E ANDAMENTO — tela Como Tocar
+   ========================================================================== */
+.ct-card-ctl{padding-bottom:14px}
+.ct-levadas{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:11px}
+.ct-lev{flex:0 0 auto;cursor:pointer;padding:7px 11px;border-radius:10px;
+  font:700 11.5px 'Outfit';letter-spacing:.01em;color:var(--rh-mut);
+  background:var(--rh-surf);border:1px solid var(--rh-line-2);
+  transition:transform var(--t-2) var(--ease),background var(--t-2) var(--ease)}
+.ct-lev:active{transform:translateY(1px)}
+.ct-lev.on{color:#2A1A12;border-color:transparent;
+  background:linear-gradient(135deg,#FFD54F,var(--rh-gold-2));
+  box-shadow:0 6px 14px -9px rgba(255,202,40,.9)}
+.ct-bpm{display:flex;align-items:center;gap:6px;flex:0 0 auto;
+  font:700 10.5px 'Outfit';letter-spacing:.08em;text-transform:uppercase;color:var(--rh-dim)}
+.ct-bpm b{color:var(--rh-ink);font-size:15px;letter-spacing:0;min-width:30px;text-align:center}
+.ct-bpm-b{width:27px;height:27px;flex:0 0 auto;cursor:pointer;border-radius:9px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font:700 16px/1 'Outfit';color:var(--rh-ink);
+  background:var(--rh-surf);border:1px solid var(--rh-line-2)}
+.ct-bpm-b:active{transform:translateY(1px)}
+@media (max-width:360px){
+  .ct-lev{padding:6px 9px;font-size:11px}
+  .ct-bpm{font-size:9.5px}
+}

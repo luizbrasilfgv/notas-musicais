@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "notas-musicais-a2ad8"
+  },
+  "targets": {
+    "notas-musicais-a2ad8": {
+      "hosting": {
+        "main": [
+          "dicionarionotas"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

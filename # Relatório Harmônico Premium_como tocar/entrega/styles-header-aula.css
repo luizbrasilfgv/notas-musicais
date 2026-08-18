@@ -1,0 +1,118 @@
+/* ============================================================================
+   PATCH DE CSS — 2 blocos independentes
+   Cole cada bloco no lugar indicado dentro de styles.css.
+   Nenhum token novo foi inventado: só as variáveis que você já tem.
+   ========================================================================== */
+
+
+/* ============================================================================
+   BLOCO A — CABEÇALHO DA MÚSICA
+   SUBSTITUIR as 5 linhas atuais (de ".visao-header{display:flex..." até
+   ".visao-titulos h2{...}") dentro de "REPERTÓRIO — visão da música".
+   O cabeçalho passa a ser uma COLUNA de 2 fileiras: identidade + ações.
+   Nada mais encavala porque título e botões deixam de disputar a mesma linha.
+   ========================================================================== */
+.visao-header{display:flex;flex-direction:column;gap:10px;margin:12px 0 14px}
+
+/* fileira 1 — voltar · títulos · editar */
+.vh-top{display:flex;align-items:center;gap:10px;min-width:0}
+.visao-titulos{flex:1;min-width:0}
+.visao-titulos small{display:block;font-size:9.5px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+.visao-titulos h2{margin:0;font-size:19px;font-weight:800;line-height:1.15;
+  letter-spacing:-.01em;color:var(--ink);text-wrap:pretty;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.visao-header .btn.btn-icone{width:38px;height:38px}
+.visao-header .btn.btn-icone.edit-musica{width:34px;height:34px;margin-right:-2px;
+  color:var(--mut)}
+.visao-header .btn.btn-icone.edit-musica:hover{color:var(--ink)}
+
+/* fileira 2 — ações. Rola na horizontal em telas minúsculas em vez de quebrar
+   linha: a altura do cabeçalho nunca muda, independente do nome da música. */
+.vh-acoes{display:flex;align-items:center;gap:6px;margin:0 -2px;padding:2px;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;-ms-overflow-style:none}
+.vh-acoes::-webkit-scrollbar{display:none}
+.vh-chip{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;cursor:pointer;
+  padding:9px 13px;border-radius:var(--r-pill);white-space:nowrap;
+  font-size:12px;font-weight:700;line-height:1;
+  background:var(--glass);border:1px solid var(--stroke);color:var(--mut);
+  backdrop-filter:var(--blur-s);-webkit-backdrop-filter:var(--blur-s);
+  transition:all var(--t-2) var(--ease)}
+.vh-chip i{font-style:normal;font-size:13px;line-height:1}
+.vh-chip:hover{color:var(--ink);border-color:var(--stroke-2)}
+.vh-chip:active{transform:translateY(1px)}
+/* estado ligado — o JS pode dar .on quando o painel correspondente estiver aberto */
+.vh-chip.on{background:color-mix(in srgb,var(--acento) 16%,transparent);
+  border-color:color-mix(in srgb,var(--acento) 40%,transparent);color:var(--acento-hi)}
+html[data-tema="claro"] .vh-chip.on{color:var(--acento)}
+/* o badge do tom continua sendo o .tom-badge que você já tem, só encolhido
+   e empurrado para a direita da fileira */
+.vh-acoes .tom-badge{margin-left:auto;padding:9px 12px;font-size:12px}
+
+
+/* ============================================================================
+   BLOCO B — AULA PRÁTICA (Como Tocar)
+   COLAR NO FIM do styles.css (depois do bloco TECLADO VISUAL).
+   Substitui todos os estilos inline que estavam no montarComoTocarHTML.
+   ========================================================================== */
+.rh-head.ct-head{padding:16px 16px 12px}
+.ct-head-row{display:flex;align-items:flex-start;gap:10px}
+.ct-head-id{flex:1;min-width:0}
+.ct-titulo{font:800 20px/1.15 'Outfit';letter-spacing:-.01em;margin:4px 0 0;
+  color:var(--rh-ink);text-wrap:pretty}
+.ct-head-row .rh-pill{flex:0 0 auto;margin-top:3px;padding:5px 11px;font-size:11px}
+
+.ct-wrap{display:flex;flex-direction:column;gap:12px;padding:0 16px 28px}
+
+.ct-card{background:var(--rh-surf-2);border:1px solid var(--rh-line-2);
+  border-radius:18px;padding:14px 14px 0;overflow:hidden}
+.ct-card-head{display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:10px}
+.ct-card-tit{display:flex;align-items:center;gap:7px;min-width:0;margin:0;
+  font:800 11.5px/1.25 'Outfit';letter-spacing:.09em;text-transform:uppercase;
+  color:var(--rh-gold)}
+.ct-card-tit span{flex:0 0 auto;font-size:14px}
+.ct-card-tit em{font-style:normal;font-weight:600;color:var(--rh-dim2)}
+
+/* botão de áudio — pílula dourada, 32px de altura, com triângulo em CSS */
+.ct-play{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;
+  width:auto;height:32px;padding:0 13px;border:0;border-radius:11px;
+  white-space:nowrap;cursor:pointer;
+  font:800 11.5px 'Outfit';letter-spacing:.01em;color:#2A1A12;
+  background:linear-gradient(135deg,#FFD54F,var(--rh-gold-2));
+  box-shadow:0 8px 18px -10px rgba(255,202,40,.9);
+  transition:transform var(--t-2) var(--ease),box-shadow var(--t-2) var(--ease)}
+.ct-play::before{content:"";flex:0 0 auto;width:0;height:0;
+  border-left:8px solid currentColor;
+  border-top:5px solid transparent;border-bottom:5px solid transparent}
+.ct-play:hover{box-shadow:0 10px 22px -8px rgba(255,202,40,.95)}
+.ct-play:active{transform:translateY(1px);box-shadow:none}
+
+.ct-txt{margin:0;font:400 13.5px/1.6 'Outfit';color:var(--rh-mut);text-wrap:pretty}
+.ct-txt b{color:var(--rh-ink);font-weight:700}
+.ct-bloco{margin-top:12px}
+.ct-sub{display:block;font:800 13.5px 'Outfit';color:var(--rh-ink);margin-bottom:3px}
+
+.ct-alerta{margin-top:12px;padding:10px 12px;border-radius:13px;
+  background:rgba(255,202,40,.09);border:1px solid rgba(255,202,40,.28)}
+.ct-alerta-tit{display:flex;align-items:center;gap:6px;margin-bottom:4px;
+  font:800 11.5px 'Outfit';letter-spacing:.03em;color:var(--rh-gold)}
+.ct-alerta p{margin:0;font:400 12.5px/1.55 'Outfit';color:#E0CBA1}
+.ct-alerta p b{color:var(--rh-gold-3);font-weight:700}
+
+/* teclado embutido no rodapé do card — vira o "chão" do bloco, sem moldura solta */
+.ct-kbd{margin:14px -14px 0}
+.ct-kbd .v-keyboard{height:62px;margin:0;padding:3px;
+  border-radius:0;border-width:1px 0 0;
+  background:linear-gradient(180deg,#151010,#0B0908);
+  box-shadow:inset 0 3px 9px rgba(0,0,0,.6)}
+.ct-kbd .v-key{border-radius:0 0 3px 3px}
+
+/* telas bem estreitas (≤ 360px) — pode juntar ao @media que já existe */
+@media (max-width:360px){
+  .ct-titulo{font-size:18px}
+  .ct-card-tit{font-size:11px;letter-spacing:.06em}
+  .ct-play{padding:0 11px}
+  .vh-chip{padding:9px 11px;font-size:11.5px}
+}

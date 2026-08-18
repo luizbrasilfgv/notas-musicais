@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@tonaljs/tonal": "^4.10.0",
+    "tonal": "^6.4.3"
+  }
+}

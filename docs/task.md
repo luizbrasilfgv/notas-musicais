@@ -1,0 +1,11 @@
+- [x] 1. Refatorar Sincronização em Nuvem (`app.js`)
+  - [x] Remover arrays locais independentes
+  - [x] Atualizar ouvinte `onSnapshot` e `agendarSalvar()`
+  - [x] Ligar `btnSalvarMusica` e `btnFavoritarAcorde` ao fluxo da nuvem
+- [x] 2. Melhorar Construtor de Música
+  - [x] Mudar renderização de seção para apenas "Chips" em vez de teclados
+- [x] 3. Ajustar Alternância de Visões (Execution View)
+  - [x] Esconder Setlists/Favoritos quando tocar música
+  - [x] Garantir que o Toggle funcione
+- [x] 4. Consertar botão Favoritos no Desktop
+- [x] 5. Fazer Deploy

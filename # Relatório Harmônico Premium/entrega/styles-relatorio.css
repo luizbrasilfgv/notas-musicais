@@ -1,0 +1,240 @@
+/* ==========================================================================
+   RELATÓRIO HARMÔNICO PREMIUM — opção 3a
+   Cole tudo no FIM do styles.css, SUBSTITUINDO o bloco antigo
+   "=========== RELATÓRIO HARMÔNICO ===========".
+   Fonte: Outfit (já carregada no index.html). Nenhuma classe antiga é usada.
+   Dica: no index.html pode remover o style inline background:#1a1a1a;color:#fff
+   do <main id="scr-relatorio"> — o CSS abaixo já cuida disso.
+   ========================================================================== */
+
+#scr-relatorio{
+  /* paleta da tela — mexa só aqui para ajustar o tom */
+  --rh-bg:#0E0B0A;
+  --rh-ink:#F7EFE2;
+  --rh-mut:#C9B9AD;
+  --rh-dim:#9A8578;
+  --rh-dim2:#A1887F;
+  --rh-gold:#FFCA28;
+  --rh-gold-2:#E6A700;
+  --rh-gold-3:#C9A24A;
+  --rh-surf:rgba(255,255,255,.045);
+  --rh-surf-2:rgba(255,255,255,.035);
+  --rh-line:rgba(255,213,79,.14);
+  --rh-line-2:rgba(255,255,255,.07);
+
+  background:
+    radial-gradient(680px 420px at 12% -8%,rgba(255,202,40,.10),transparent 62%),
+    var(--rh-bg) !important;
+  color:var(--rh-ink) !important;
+  font-family:'Outfit',var(--font-ui);
+  padding:0 0 60px !important;
+}
+
+/* barra de voltar que já existe no index.html */
+#scr-relatorio > div:first-child{
+  padding:calc(env(safe-area-inset-top,0px) + 14px) 22px 14px !important;
+  margin-bottom:0 !important;
+  border-bottom:1px solid var(--rh-line-2) !important;
+  gap:14px !important;
+}
+#scr-relatorio > div:first-child h2{
+  font:700 11px 'Outfit' !important;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--rh-dim) !important;
+}
+#scr-relatorio .btn-icone{
+  background:var(--rh-surf);border:1px solid rgba(255,213,79,.18);color:var(--rh-ink)
+}
+#conteudoRelatorioHarmonico{gap:0 !important}
+
+#scr-relatorio .rh-vazio{padding:60px 24px;text-align:center;color:var(--rh-dim);font-size:15px}
+
+/* ---------------------------------------------------------------- cabeçalho */
+.rh-head{padding:26px 22px 24px}
+.rh-eyebrow{font:700 10.5px 'Outfit';letter-spacing:.2em;text-transform:uppercase;color:var(--rh-dim)}
+.rh-titulo{
+  font:800 32px/1.1 'Outfit';letter-spacing:-.02em;margin:8px 0 14px;
+  color:var(--rh-ink);text-wrap:pretty
+}
+.rh-pills{display:flex;flex-wrap:wrap;gap:8px}
+.rh-pill{
+  padding:7px 14px;border-radius:999px;font:600 12.5px 'Outfit';
+  background:var(--rh-surf);border:1px solid rgba(255,213,79,.16);color:var(--rh-mut)
+}
+.rh-pill-on{
+  background:linear-gradient(135deg,#FFD54F,var(--rh-gold-2));
+  border-color:transparent;color:#2A1A12;font-weight:800
+}
+
+/* ------------------------------------------------------------------- blocos */
+.rh-bloco{padding:0 22px 30px}
+.rh-label{
+  font:700 10.5px 'Outfit';letter-spacing:.2em;text-transform:uppercase;
+  color:var(--rh-dim);margin-bottom:16px
+}
+
+/* ------------------------------------------------------------ como você toca */
+.rh-salvo{display:flex;flex-direction:column;gap:10px}
+.rh-secao{
+  padding:16px 18px;border-radius:20px;
+  background:var(--rh-surf-2);border:1px solid var(--rh-line-2)
+}
+.rh-secao-tit{
+  font:700 11px 'Outfit';letter-spacing:.14em;text-transform:uppercase;
+  color:var(--rh-dim2);margin-bottom:12px
+}
+.rh-secao-seq{
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+  font:800 17px 'Outfit';color:var(--rh-ink)
+}
+.rh-secao-seq b{font-weight:800;display:inline-flex;align-items:baseline;gap:3px}
+.rh-secao-seq .rh-rep{font:700 11px 'Outfit';font-style:normal;color:var(--rh-gold-3)}
+.rh-secao-seq .rh-seta{font-size:14px;font-weight:400;color:#6E5A4C}
+
+/* ---------------------------------------------------------- curva de tensão */
+.rh-curva{
+  margin:0 14px 30px;padding:20px 18px 16px;border-radius:28px;
+  background:linear-gradient(180deg,rgba(255,202,40,.07),rgba(255,255,255,.02));
+  border:1px solid var(--rh-line)
+}
+.rh-curva-top{
+  display:flex;justify-content:space-between;
+  font:700 9.5px 'Outfit';letter-spacing:.16em;text-transform:uppercase;
+  color:var(--rh-dim2);margin-bottom:14px
+}
+.rh-graf-wrap{overflow-x:auto;scrollbar-width:none}
+.rh-graf-wrap::-webkit-scrollbar{display:none}
+.rh-graf-inner{min-width:calc(var(--rh-n,4) * 62px)}
+.rh-graf{position:relative;height:200px}
+.rh-grid{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between}
+.rh-grid i{height:1px;background:rgba(255,255,255,.06)}
+.rh-linha{position:absolute;inset:0;width:100%;height:100%}
+.rh-no{
+  position:absolute;transform:translate(-50%,-50%);
+  min-width:36px;height:36px;padding:0 6px;border-radius:999px;
+  display:grid;place-items:center;
+  background:#1A1210;border:1.5px solid rgba(255,213,79,.35);
+  color:var(--rh-ink);font:800 13px 'Outfit';white-space:nowrap
+}
+.rh-no-on{
+  background:linear-gradient(135deg,#FFD54F,var(--rh-gold-2));
+  border-color:transparent;color:#2A1A12;
+  box-shadow:0 0 20px rgba(255,202,40,.45)
+}
+.rh-eixo{
+  display:flex;margin-top:6px;padding-top:14px;
+  border-top:1px solid var(--rh-line-2)
+}
+.rh-eixo-col{flex:1;min-width:0;text-align:center;display:flex;flex-direction:column;gap:3px}
+.rh-eixo-i{font:700 9.5px 'Outfit';color:var(--rh-dim2)}
+.rh-eixo-c{font:800 17px 'Outfit';color:var(--rh-ink)}
+.rh-eixo-g{font:700 10px 'Outfit';letter-spacing:.1em;color:var(--rh-dim2)}
+.rh-eixo-c.rh-on{color:var(--rh-gold)}
+.rh-eixo-g.rh-on{color:var(--rh-gold-3)}
+
+/* ------------------------------------------------------- trilha do fluxo */
+.rh-trilha{display:block}
+.rh-acorde{
+  display:flex;align-items:center;gap:14px;
+  padding:18px 20px;border-radius:20px;
+  background:var(--rh-surf);border:1px solid var(--rh-line)
+}
+.rh-acorde-on{
+  background:linear-gradient(180deg,rgba(255,202,40,.13),rgba(255,202,40,.03));
+  border-color:var(--rh-gold);
+  box-shadow:0 14px 34px -20px rgba(255,202,40,.7)
+}
+.rh-ac-col{width:44px;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:5px}
+.rh-idx{font:800 11px 'Outfit';color:var(--rh-dim2)}
+.rh-grau{
+  width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,213,79,.10);border:1.5px solid rgba(255,213,79,.30);
+  color:var(--rh-gold);font:800 14px 'Outfit'
+}
+.rh-grau-on{
+  background:linear-gradient(135deg,#FFD54F,var(--rh-gold-2));
+  border-color:transparent;color:#2A1A12;font-size:12.5px
+}
+.rh-ac-body{flex:1;min-width:0}
+.rh-cifra{font:800 26px/1 'Outfit';color:var(--rh-ink)}
+.rh-acorde-on .rh-cifra{color:var(--rh-gold)}
+.rh-notas{
+  font:500 12.5px 'Outfit';letter-spacing:.05em;
+  color:var(--rh-dim);margin-top:6px;overflow-wrap:anywhere
+}
+.rh-acorde-on .rh-notas{color:#A8917F}
+.rh-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.rh-badge{
+  padding:6px 11px;border-radius:999px;
+  background:rgba(255,202,40,.14);border:1px solid rgba(255,202,40,.45);
+  color:var(--rh-gold);font:700 11px 'Outfit'
+}
+.rh-ac-func{
+  flex:0 0 auto;max-width:78px;text-align:right;
+  font:600 11px/1.3 'Outfit';letter-spacing:.08em;text-transform:uppercase;
+  color:var(--rh-dim2)
+}
+
+/* -------------------------------------------------- transição entre acordes */
+.rh-transicao{
+  margin-left:21px;padding:18px 0 18px 22px;
+  border-left:1.5px dashed rgba(255,213,79,.35)
+}
+.rh-transicao-fim{border-left:1.5px solid rgba(255,213,79,.5)}
+.rh-tr-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.rh-tr-par{font:800 13px 'Outfit';color:var(--rh-gold)}
+.rh-tr-tag{
+  font:700 10px 'Outfit';letter-spacing:.1em;text-transform:uppercase;
+  color:var(--rh-dim2);text-align:right
+}
+.rh-vozes{
+  display:flex;flex-direction:column;gap:1px;
+  border-radius:14px;overflow:hidden;background:rgba(255,255,255,.04);margin-bottom:14px
+}
+.rh-voz{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:11px 14px;font:600 13.5px 'Outfit';color:var(--rh-mut)
+}
+.rh-voz:nth-child(even){background:rgba(0,0,0,.2)}
+.rh-voz i{font-style:normal;color:#6E5A4C;margin:0 2px}
+.rh-voz em{font-style:normal;font:700 11.5px 'Outfit';color:var(--rh-gold);white-space:nowrap}
+.rh-voz-parada{color:var(--rh-ink)}
+.rh-voz-parada em{color:var(--rh-gold-3)}
+.rh-porque{
+  margin:0;font:400 13.5px/1.65 'Outfit';color:var(--rh-mut);text-wrap:pretty
+}
+.rh-ciclo{
+  display:flex;align-items:center;gap:10px;
+  margin:16px 0 0 21px;padding:14px 18px;border-radius:16px;
+  background:rgba(255,255,255,.03);border:1px dashed rgba(255,213,79,.28);
+  font:500 12.5px/1.5 'Outfit';color:var(--rh-mut)
+}
+.rh-ciclo span{font-size:15px;color:var(--rh-gold)}
+
+/* -------------------------------------------------------- função dos acordes */
+.rh-funcoes{display:flex;flex-direction:column}
+.rh-fn{
+  display:flex;align-items:center;gap:16px;
+  padding:16px 4px;border-bottom:1px solid rgba(255,255,255,.06)
+}
+.rh-fn:last-child{border-bottom:0}
+.rh-fn-cifra{width:52px;flex:0 0 auto;font:800 20px 'Outfit';color:var(--rh-gold)}
+.rh-fn-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.rh-fn-txt b{font:700 13.5px 'Outfit';color:var(--rh-ink)}
+.rh-fn-txt span{font:400 12.5px 'Outfit';color:var(--rh-dim)}
+
+/* ------------------------------------------------------------------- frase */
+.rh-frase{
+  padding:22px;border-radius:22px;
+  background:linear-gradient(160deg,rgba(255,202,40,.10),rgba(255,255,255,.02));
+  border:1px solid rgba(255,213,79,.20);
+  font:400 15px/1.6 'Outfit';color:var(--rh-ink);text-wrap:pretty
+}
+.rh-frase b{color:var(--rh-gold);font-weight:700}
+
+/* telas bem estreitas (≤ 360px) */
+@media (max-width:360px){
+  .rh-titulo{font-size:28px}
+  .rh-ac-func{display:none}
+  .rh-cifra{font-size:24px}
+}
