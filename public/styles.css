@@ -971,6 +971,20 @@ html[data-tema="claro"] .vh-chip.on{color:var(--acento)}
 .ct-play:hover{box-shadow:0 10px 22px -8px rgba(255,202,40,.95)}
 .ct-play:active{transform:translateY(1px);box-shadow:none}
 
+/* ---- estado TOCANDO: o triangulo de play vira quadrado de parar ----
+   O botao e um toggle real: o mesmo clique que iniciou o som o interrompe.
+   A cor muda para nao depender so do texto (acessibilidade e leitura rapida). */
+.ct-play.tocando{background:linear-gradient(135deg,#FF8A65,#E64A19);color:#FFF6F0;
+  box-shadow:0 8px 18px -10px rgba(230,74,25,.9)}
+.ct-play.tocando:hover{box-shadow:0 10px 22px -8px rgba(230,74,25,.95)}
+.ct-play.tocando::before{width:9px;height:9px;border:0;border-radius:2px;
+  background:currentColor}
+
+/* botoes de icone do dicionario (bloco / arpejo) */
+#btnPlayBloco.tocando,#btnPlayArpejo.tocando{
+  background:linear-gradient(135deg,#FF8A65,#E64A19);
+  border-color:rgba(230,74,25,.55);color:#FFF6F0}
+
 .ct-txt{margin:0;font:400 13.5px/1.6 'Outfit';color:var(--rh-mut);text-wrap:pretty}
 .ct-txt b{color:var(--rh-ink);font-weight:700}
 .ct-bloco{margin-top:12px}

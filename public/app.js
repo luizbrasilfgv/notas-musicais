@@ -1409,6 +1409,7 @@ document.addEventListener("click", e => {
 
   const tab = e.target.closest("[data-scr]");
   if (tab){
+    if (window.AudioSynth) window.AudioSynth.parar();
     document.querySelectorAll(".nav button").forEach(b => b.classList.toggle("on", b === tab));
     document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
     el("scr-" + tab.dataset.scr)?.classList.add("active");
@@ -1433,12 +1434,24 @@ document.addEventListener("click", e => {
   
   const btnPlayBloco = e.target.closest("#btnPlayBloco");
   if (btnPlayBloco) {
-    if (window.AudioSynth) window.AudioSynth.tocarAcorde(notasAtuais, "bloco");
+    if (window.AudioSynth) {
+      if (window.AudioSynth.tocando() && window.AudioSynth.origem() === "btnPlayBloco") {
+        window.AudioSynth.parar();
+      } else {
+        window.AudioSynth.tocarAcorde(notasAtuais, "bloco", null, "btnPlayBloco");
+      }
+    }
     return;
   }
   const btnPlayArpejo = e.target.closest("#btnPlayArpejo");
   if (btnPlayArpejo) {
-    if (window.AudioSynth) window.AudioSynth.tocarAcorde(notasAtuais, "arpejo");
+    if (window.AudioSynth) {
+      if (window.AudioSynth.tocando() && window.AudioSynth.origem() === "btnPlayArpejo") {
+        window.AudioSynth.parar();
+      } else {
+        window.AudioSynth.tocarAcorde(notasAtuais, "arpejo", null, "btnPlayArpejo");
+      }
+    }
     return;
   }
   
@@ -1452,14 +1465,19 @@ document.addEventListener("click", e => {
     let fx = [];
     if (btnExemplo.dataset.fluxo) { try { fx = JSON.parse(btnExemplo.dataset.fluxo); } catch (err) { fx = []; } }
     if (window.AudioSynth) {
+      // segundo clique no MESMO botao = parar. Em outro botao = troca o som.
+      if (window.AudioSynth.tocando() && window.AudioSynth.origem() === modo) {
+        window.AudioSynth.parar();
+        return;
+      }
       if (modo === "levada") {
-        window.AudioSynth.tocarLevada(fx, lev, bpmB, kbd);
+        window.AudioSynth.tocarLevada(fx, lev, bpmB, kbd, modo);
       } else if (modo === "solo") {
-        window.AudioSynth.tocarSolo(fx, lev, bpmB, btnExemplo.dataset.tom || "C", kbd);
+        window.AudioSynth.tocarSolo(fx, lev, bpmB, btnExemplo.dataset.tom || "C", kbd, modo);
       } else if (modo === "progressao") {
-        window.AudioSynth.tocarProgressao(btnExemplo.dataset.fluxo, kbd);
+        window.AudioSynth.tocarProgressao(btnExemplo.dataset.fluxo, kbd, modo);
       } else if (notas.length > 0) {
-        window.AudioSynth.tocarAcorde(notas, modo, kbd);
+        window.AudioSynth.tocarAcorde(notas, modo, kbd, modo);
       }
     }
     return;
@@ -1468,6 +1486,7 @@ document.addEventListener("click", e => {
   // ---- escolher a levada da musica ----
   const chipLev = e.target.closest(".ct-lev");
   if (chipLev && musicaAtual) {
+    if (window.AudioSynth) window.AudioSynth.parar();
     const k = chipLev.dataset.levada;
     if (LEVADAS[k]) {
       musicaAtual.levada = k;
@@ -1550,6 +1569,7 @@ document.addEventListener("click", e => {
   
   const fecharModal = e.target.closest("#btnVoltarRelatorio");
   if (fecharModal) {
+    if (window.AudioSynth) window.AudioSynth.parar();
     // Limpar relatório para evitar elementos órfãos
     const relatorio = el("scr-relatorio");
     relatorio.style.display = "none";
@@ -1574,6 +1594,7 @@ document.addEventListener("click", e => {
   
   const fecharComoTocar = e.target.closest("#btnVoltarComoTocar");
   if (fecharComoTocar) {
+    if (window.AudioSynth) window.AudioSynth.parar();
     el("scr-comotocar").style.display = "none";
     const scrMeus = el("scr-meus");
     scrMeus.style.display = ""; 
@@ -1989,6 +2010,16 @@ iniciar();
    =========================================================== */
 const AudioSynth = {
   ctx: null,
+  bus: null,
+
+  _osc: [],        // osciladores agendados desta reproducao
+  _timers: [],     // setTimeouts do feedback visual do teclado
+  _fim: 0,         // instante (ctx.currentTime) em que o ultimo som termina
+  _fimTimer: null, // devolve o botao para "play" quando acabar sozinho
+  _tocando: false,
+  _origem: null,   // qual botao disparou, para o toggle saber de quem e
+  onEstado: null,  // callback (tocando, origem) -> a UI se sincroniza
+
   init() {
     if (!this.ctx) {
       this.ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1996,6 +2027,83 @@ const AudioSynth = {
     if (this.ctx.state === "suspended") {
       this.ctx.resume();
     }
+    if (!this.bus) {
+      this.bus = this.ctx.createGain();
+      this.bus.gain.value = 1;
+      this.bus.connect(this.ctx.destination);
+    }
+    return this.ctx;
+  },
+
+  tocando() { return this._tocando; },
+  origem()  { return this._origem; },
+
+  _avisar() {
+    if (typeof this.onEstado === "function") {
+      try { this.onEstado(this._tocando, this._origem); } catch (e) {}
+    }
+  },
+
+  /* Inicio de reproducao: corta o que estiver tocando e abre um bus novo.
+     Bus novo (em vez de reaproveitar) porque o bus antigo esta em fade e
+     reaproveita-lo faria o som antigo voltar a subir por alguns ms. */
+  _iniciar(origem) {
+    this.parar(true);
+    this.init();
+    const antigo = this.bus;
+    this.bus = this.ctx.createGain();
+    this.bus.gain.value = 1;
+    this.bus.connect(this.ctx.destination);
+    // desconecta o bus anterior depois do fade. Timer fora do registro de
+    // proposito: parar() nao deve cancelar a propria limpeza.
+    setTimeout(() => { try { antigo.disconnect(); } catch (e) {} }, 250);
+    this._fim = 0;
+    this._origem = origem || null;
+    this._tocando = true;
+  },
+
+  /* Devolve o botao ao estado "play" quando o audio termina naturalmente. */
+  _agendarFim() {
+    if (!this._tocando || !this.ctx) return;
+    const resta = Math.max(0, this._fim - this.ctx.currentTime) * 1000 + 120;
+    this._fimTimer = setTimeout(() => {
+      this._fimTimer = null;
+      this._osc = [];
+      this._timers = [];
+      this._tocando = false;
+      this._origem = null;
+      this._avisar();
+    }, resta);
+    this._avisar();
+  },
+
+  /* PARAR. silencioso=true quando chamado internamente por _iniciar, para nao
+     piscar a UI entre o corte e o novo play. */
+  parar(silencioso) {
+    if (this._fimTimer) { clearTimeout(this._fimTimer); this._fimTimer = null; }
+    this._timers.forEach(id => clearTimeout(id));
+    this._timers = [];
+
+    if (this.ctx && this.bus) {
+      const agora = this.ctx.currentTime;
+      try {
+        this.bus.gain.cancelScheduledValues(agora);
+        this.bus.gain.setValueAtTime(this.bus.gain.value, agora);
+        this.bus.gain.linearRampToValueAtTime(0.0001, agora + 0.04);
+        this.bus.gain.setValueAtTime(1, agora + 0.09); // nivel de volta p/ o proximo som
+      } catch (e) {}
+      this._osc.forEach(o => { try { o.stop(agora + 0.06); } catch (e) {} });
+    }
+    this._osc = [];
+
+    try {
+      document.querySelectorAll(".v-key.lit").forEach(k => k.classList.remove("lit"));
+    } catch (e) {}
+
+    const estava = this._tocando;
+    this._tocando = false;
+    this._origem = null;
+    if (estava && !silencioso) this._avisar();
   },
   playNote(midiNote, timeOffset = 0, duration = 1.5, targetKbdId = null, vel = 1) {
     this.init();
@@ -2010,7 +2118,7 @@ const AudioSynth = {
     osc.type = "triangle";
     
     osc.connect(gain);
-    gain.connect(this.ctx.destination);
+    gain.connect(this.bus);
     
     osc.frequency.setValueAtTime(freq, t);
     
@@ -2022,8 +2130,12 @@ const AudioSynth = {
     osc.start(t);
     osc.stop(t + duration);
 
+    // registro para que parar() consiga cortar
+    this._osc.push(osc);
+    if (t + duration > this._fim) this._fim = t + duration;
+
     // Feedback visual (Teclado UI)
-    setTimeout(() => {
+    const idOut = setTimeout(() => {
       let selector = ".v-key[data-midi='" + midiNote + "']";
       if (targetKbdId) {
         selector = "#" + targetKbdId + " " + selector;
@@ -2031,13 +2143,15 @@ const AudioSynth = {
       const keys = document.querySelectorAll(selector);
       keys.forEach(k => {
         k.classList.add("lit");
-        setTimeout(() => k.classList.remove("lit"), 300);
+        const idIn = setTimeout(() => k.classList.remove("lit"), 300);
+        this._timers.push(idIn);
       });
     }, timeOffset * 1000);
+    this._timers.push(idOut);
   },
-  tocarAcorde(notasStr, modo = "bloco", targetKbdId = null) {
+  tocarAcorde(notasStr, modo = "bloco", targetKbdId = null, origem = null) {
     if (!notasStr || notasStr.length === 0) return;
-    this.init();
+    this._iniciar(origem || modo);
     const midiNotes = notasStr.map(n => Note.midi(n));
     if (modo === "bloco") {
       midiNotes.forEach(midi => this.playNote(midi, 0, 2.0, targetKbdId));
@@ -2056,14 +2170,15 @@ const AudioSynth = {
         }
       });
     }
+    this._agendarFim();
   },
   /* ---- LEVADAS: cada estilo tem seu desenho ritmico proprio ---- */
   _sw(beat, L, sb) {
     const swing = (L.swing && Math.abs((beat % 1) - 0.5) < 0.01) ? sb * 0.16 : 0;
     return beat * sb + swing;
   },
-  tocarLevada(fluxo, levadaKey, bpm, targetKbdId = null) {
-    this.init();
+  tocarLevada(fluxo, levadaKey, bpm, targetKbdId = null, origem = "levada") {
+    this._iniciar(origem);
     const L = LEVADAS[levadaKey] || LEVADAS.balada;
     const sb = 60 / (bpm || L.bpm);
     const compassos = Math.max(1, Math.min(fluxo.length, 8));
@@ -2078,20 +2193,22 @@ const AudioSynth = {
         midis.forEach(m => this.playNote(m, t0 + this._sw(ev.t, L, sb), ev.d * sb, targetKbdId, ev.v));
       });
     }
+    this._agendarFim();
   },
   /* ---- SOLO: o lick anda em cima dos acordes da musica, nao de uma escala fixa ---- */
-  tocarSolo(fluxo, levadaKey, bpm, tom, targetKbdId = null) {
-    this.init();
+  tocarSolo(fluxo, levadaKey, bpm, tom, targetKbdId = null, origem = "solo") {
+    this._iniciar(origem);
     const L = LEVADAS[levadaKey] || LEVADAS.balada;
     const sb = 60 / (bpm || L.bpm);
     const notas = gerarLickDoFluxo(fluxo, tom, L);
     notas.forEach(n => this.playNote(n.midi, this._sw(n.t, L, sb), n.d * sb, targetKbdId, n.v));
+    this._agendarFim();
   },
-  tocarProgressao(fluxoJSON, targetKbdId = null) {
-    this.init();
+  tocarProgressao(fluxoJSON, targetKbdId = null, origem = "progressao") {
     let fluxo = [];
     try { fluxo = JSON.parse(fluxoJSON); } catch(e) { return; }
     if (!fluxo || fluxo.length === 0) return;
+    this._iniciar(origem);
 
     let acordesParaTocar = [];
     for(let i=0; i<4; i++) {
@@ -2110,6 +2227,7 @@ const AudioSynth = {
         });
       });
     });
+    this._agendarFim();
   },
   getNotasEscala(tom) {
     let t = tom.replace(/m7?$/, "");
@@ -2123,6 +2241,26 @@ const AudioSynth = {
   }
 };
 window.AudioSynth = AudioSynth;
+
+/* ---- sincroniza os botoes de audio com o estado real da reproducao ----
+   Chamado pelo proprio AudioSynth sempre que comeca ou termina um som,
+   inclusive quando termina sozinho. Sem isso o botao ficaria eternamente
+   escrito "Parar" depois do audio acabar. */
+function sincronizarBotoesAudio(tocando, origem) {
+  document.querySelectorAll(".btn-play-exemplo").forEach(b => {
+    if (b.dataset.rotulo == null) b.dataset.rotulo = b.textContent.trim();
+    const meu = !!tocando && origem === (b.dataset.modo || "escala");
+    b.classList.toggle("tocando", meu);
+    b.textContent = meu ? "Parar" : b.dataset.rotulo;
+    b.setAttribute("aria-label", meu ? "Parar" : b.dataset.rotulo);
+  });
+  ["btnPlayBloco", "btnPlayArpejo"].forEach(id => {
+    const b = document.getElementById(id);
+    if (b) b.classList.toggle("tocando", !!tocando && origem === id);
+  });
+}
+AudioSynth.onEstado = sincronizarBotoesAudio;
+window.sincronizarBotoesAudio = sincronizarBotoesAudio;
 
 /* ===========================================================
    LEVADAS — o desenho ritmico de cada estilo.
