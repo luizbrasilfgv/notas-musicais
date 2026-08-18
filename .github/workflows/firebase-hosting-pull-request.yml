@@ -13,8 +13,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Conferir sintaxe do app.js
+        run: node --check public/app.js
+
+      - name: Conferir se o CSS está balanceado
+        run: |
+          node -e "
+            const fs = require('fs');
+            const css = fs.readFileSync('public/styles.css','utf8').replace(/\/\*[\s\S]*?\*\//g,'');
+            let d = 0;
+            for (const c of css) { if (c === '{') d++; else if (c === '}') d--; }
+            if (d !== 0) { console.error('CSS desbalanceado: saldo ' + d); process.exit(1); }
+            console.log('CSS ok');
+          "
+
+      - name: Carimbar versão de cache
+        run: node scripts/stamp-versao.mjs "pr${{ github.event.number }}-${{ github.run_number }}"
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_NOTAS_MUSICAIS_A2AD8 }}
           projectId: notas-musicais-a2ad8
+          target: main
